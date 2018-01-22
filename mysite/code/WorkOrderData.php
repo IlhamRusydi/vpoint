@@ -20,6 +20,7 @@ class WorkOrderData extends DataObject {
 	  'Responses' => 'WorkOrderResponseData'
   );
   static $summary_fields = array(
+	  'Created.Nice' => 'Created',
 	  'Number' => 'Number',
 	  'Title' => 'Title',
 	  'Status' => 'Status',
@@ -83,7 +84,7 @@ class WorkOrderData extends DataObject {
 	  $fields->addFieldToTab("Root.Main", new LiteralField("Content", $this->Content));
 	} else {
 	  $fields->addFieldToTab("Root.Main", new TextField("Title"));
-	  $fields->addFieldToTab("Root.Main", new DropdownField("MemberID", "Staff", Member::get()->where("Type='OPERATOR'")->map("ID", "FirstName"), null, null, "Select Staff"));
+	  $fields->addFieldToTab("Root.Main", new DropdownField("MemberID", "Staff", Member::get()->where("Type='TEKNISI'")->map("ID", "FirstName"), null, null, "Select Staff"));
 	  $startDate = new DateField("StartDate", "Start Date");
 	  $startDate->setConfig("showcalendar", true);
 	  $fields->addFieldToTab("Root.Main", $startDate);

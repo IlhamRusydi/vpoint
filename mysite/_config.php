@@ -18,3 +18,4 @@ i18n::set_locale('en_US');
 SiteConfig::add_extension("CustomSiteConfig");
 Member::add_extension("CustomMember");
 Director::set_environment_type("dev");
+date_default_timezone_set('Asia/Jakarta');

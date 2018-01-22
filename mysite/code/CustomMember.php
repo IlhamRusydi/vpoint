@@ -4,7 +4,7 @@ class CustomMember extends DataExtension {
 
   static $db = array(
 	  'Address' => 'Text',
-	  'Type' => 'Enum("ADMIN, CLIENT, OPERATOR", "CLIENT")'
+	  'Type' => 'Enum("ADMIN, CLIENT, TEKNISI, CS", "CLIENT")'
   );
 
   public function updateCMSFields(\FieldList $fields) {
@@ -13,7 +13,7 @@ class CustomMember extends DataExtension {
 	$fields->removeByName("FailedLoginCount");
 	$fields->removeByName("Divisions");
 	$fields->removeByName("Surename");
-	$source = array("ADMIN" => "ADMIN", "OPERATOR" => "OPERATOR", "CLIENT" => "CLIENT");
+	$source = array("ADMIN" => "ADMIN", "TEKNISI" => "TEKNISI", "CLIENT" => "CLIENT", "CS" => "CUSTOMER SERVICE");
 	$fields->replaceField("Type", new DropdownField("Type", "Type", $source, null, null, "Select Type"));
   }
 

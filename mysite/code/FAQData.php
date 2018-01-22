@@ -4,7 +4,7 @@ class FAQData extends DataObject {
 
   static $db = array(
 	  'Title' => 'Varchar(200)',
-	  'Content' => 'Text'
+	  'Content' => 'HTMLText'
   );
 
   public function canCreate($member = null) {
@@ -17,6 +17,19 @@ class FAQData extends DataObject {
 
   public function canView($member = null) {
 	return true;
+  }
+
+  static function Search($params, $limit = 10, $offset = 0) {
+	$sql = "SELECT DISTINCT FAQData.ID FROM FAQData";
+	$sql .= " WHERE FAQData.ID>0";
+	if (isset($params['search']) && $params['search']) {
+	  $sql .= " AND (FAQData.Title LIKE '%" . $params['search'] . "%'";
+	  $sql .= " OR FAQData.Content LIKE '%" . $params['search'] . "%')";
+	}
+	$sql .= " ORDER BY FAQData.Created ASC LIMIT $offset, $limit ";
+	$arr_id = DB::query($sql)->column("ID");
+	$where = sizeof($arr_id) ? "ID IN (" . implode(",", $arr_id) . ")" : "ID=0";
+	return FAQData::get()->where($where);
   }
 
   function createURLSegment() {

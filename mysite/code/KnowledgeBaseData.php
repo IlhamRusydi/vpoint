@@ -25,21 +25,25 @@ class KnowledgeBaseData extends DataObject {
 	return true;
   }
 
-  static function Search($params, $limit = 5, $offset = 0) {
-	$sql = "SELECT DISTINCT KnowledgeBaseData.ID FROM KnowledgeBaseData"
-			. " JOIN KnowledgeBaseData_Categories ON KnowledgeBaseData.ID=KnowledgeBaseData_Categories.KnowledgeBaseDataID";
-	$sql .= " WHERE KnowledgeBaseData.ID>0";
-	if (isset($params['search']) && $params['search']) {
-	  $sql .= " AND KnowledgeBaseData.Title LIKE '%" . $params['search'] . "%'";
-	  $sql .= " AND KnowledgeBaseData.Content LIKE '%" . $params['search'] . "%'";
+  static function Search($params) {
+	$category = KnowledgeBaseCategoryData::get();
+	$list_data = new ArrayList();
+	foreach ($category as $cat) {
+	  $sql = "SELECT KnowledgeBaseData.ID FROM KnowledgeBaseData"
+			  . " JOIN KnowledgeBaseData_Categories ON KnowledgeBaseData.ID=KnowledgeBaseData_Categories.KnowledgeBaseDataID";
+	  $sql .= " WHERE KnowledgeBaseData.ID>0 AND KnowledgeBaseData_Categories.KnowledgeBaseCategoryDataID=$cat->ID";
+	  if (isset($params['search']) && $params['search']) {
+		$sql .= " AND (KnowledgeBaseData.Title LIKE '%" . $params['search'] . "%'";
+		$sql .= " OR KnowledgeBaseData.Content LIKE '%" . $params['search'] . "%')";
+	  }
+	  $query = DB::query($sql)->column("ID");
+	  $where = sizeof($query) ? "ID IN (" . implode(",", $query) . ")" : "ID=0";
+	  $list_data->push(array(
+		  'Category' => $cat,
+		  'KnowledgeBases' => KnowledgeBaseData::get()->where($where)
+	  ));
 	}
-	if (isset($params['category']) && $params['category']) {
-	  $sql .= " AND KnowledgeBaseData_Categories.BlogCategoryDataID = " . $params['category'] . "";
-	}
-	$sql .= " ORDER BY KnowledgeBaseData.Created ASC LIMIT $offset, $limit ";
-	$arr_id = DB::query($sql)->column("ID");
-	$where = sizeof($arr_id) ? "ID IN (" . implode(",", $arr_id) . ")" : "ID=0";
-	return KnowledgeBaseData::get()->where($where);
+	return $list_data;
   }
 
   public function getCMSFields() {

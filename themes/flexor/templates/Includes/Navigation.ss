@@ -27,8 +27,8 @@
 		  </ul>
 		</li>
 		<li><a href="{$getOneBlogPage.Link}">Blog</a></li>
-		<% if $getUserLogged %>
 		<li><a href="{$getOneKnowledgeBasePage.Link}">Knowledge Base</a></li>
+		<% if $getUserLogged %>
 		<li><a href="{$getOneTicketPage.Link}">Ticket</a></li>
 		<% end_if %>
 		<li><a href="{$getOneContactPage.Link}">Kontak Kami</a></li>

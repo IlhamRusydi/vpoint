@@ -2,7 +2,7 @@
 
     <table>
       <tr>
-        <td><% _t('Page.Name') %></td>
+        <td>Name</td>
         <td> : </td>
         <td>$Name</td>
       </tr>
@@ -12,22 +12,17 @@
         <td>$Email</td>
       </tr>
       <tr>
-        <td><% _t('Page.Phone') %></td>
-        <td> : </td>
-        <td>$Phone</td>
-      </tr>
-      <tr>
-        <td><% _t('Page.VisitorIP') %></td>
+        <td>Visitor IP</td>
         <td> : </td>
         <td>$VisitorIP</td>
       </tr>
       <tr>
-        <td><% _t('Page.Subject') %></td>
+        <td>Subject</td>
         <td> : </td>
         <td>$Subject</td>
       </tr>
       <tr>
-        <td><% _t('Page.Message') %></td>
+        <td>Message</td>
         <td> : </td>
         <td>$Message</td>
       </tr>

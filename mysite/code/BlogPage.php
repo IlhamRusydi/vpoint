@@ -38,6 +38,7 @@ class BlogPage_Controller extends Page_Controller {
 	$url = $this->Link() . 'index?' . $url_query;
 	return $this->customise(array(
 				'ListData' => $list_data,
+				'Data' => $_REQUEST,
 				'Pagination' => MT::pagination($list_data->count(), $limit, $page, $url)
 	));
   }

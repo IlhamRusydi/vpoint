@@ -26,7 +26,6 @@ class NotificationData extends DataObject {
   public function canCreate($member = null) {
 	return false;
   }
-  
 
   public function canEdit($member = null) {
 	return false;
@@ -35,7 +34,7 @@ class NotificationData extends DataObject {
   public function canDelete($member = null) {
 	return false;
   }
-  
+
   public function canView($member = null) {
 	return true;
   }

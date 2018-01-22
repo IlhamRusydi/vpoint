@@ -21,9 +21,21 @@ class FAQPage extends Page {
 class FAQPage_Controller extends Page_Controller {
 
   function index() {
-	$list_data = FAQData::get();
+	$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+	$limit = 5;
+	$offset = 0;
+	if (isset($_REQUEST['page'])) {
+	  $offset = ($page - 1) * $limit;
+	}
+	$list_data = FAQData::Search($_REQUEST, $limit, $offset);
+	$request = $_REQUEST;
+	unset($request['url']);
+	$url_query = http_build_query($request);
+	$url = $this->Link() . 'index?' . $url_query;
 	return $this->customise(array(
-				'ListData' => $list_data
+				'ListData' => $list_data,
+				'Data' => $_REQUEST,
+				'Pagination' => MT::pagination($list_data->count(), $limit, $page, $url)
 	));
   }
 

@@ -82,21 +82,14 @@ class MT {
 	} else {
 	  $email->setCc($cc);
 	}
-
 	if ($bcc) {
 	  $email->setBcc($bcc);
-	} else {
-	  $email->setBcc(self::$bcc_email);
-	}
+	} 
 	$email->send();
   }
 
   static function sendEmail($to, $subject, $arr_data = array(), $arr_template = array(), $cc = "", $bcc = "", $reply_to = "", $attachment = array()) {
-	if (self::$email_use_smtp) {
-	  return self::sendEmailSMTP($to, $subject, $arr_data, $arr_template, $cc, $bcc, $reply_to, $attachment);
-	} else {
-	  return self::sendEmailSS($to, $subject, $arr_data, $arr_template, $cc, $bcc, $reply_to, $attachment);
-	}
+	return self::sendEmailSS($to, $subject, $arr_data, $arr_template, $cc, $bcc, $reply_to, $attachment);
   }
 
   static function pagination($count = 0, $page_size = 1, $page = 1, $url = '', $variable = 'page') {

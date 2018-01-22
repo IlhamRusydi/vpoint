@@ -94,7 +94,7 @@ class TicketPage_Controller extends Page_Controller {
 	$obj->Status = 'CLOSED';
 	$obj->CloseOn = date('Y-m-d H:i:s');
 	$obj->write();
-	foreach (Member::get()->where("Type='ADMIN'") as $user) {
+	foreach (Member::get()->where("Type IN ('ADMIN','CS')") as $user) {
 	  $arr = array(
 		  'Title' => Member::currentUser()->FirstName . " menutup ticket " . $obj->Number . " - " . $obj->Title . " pada " . date('d-m-Y H:i'),
 		  'URL' => Director::absoluteBaseURL() . "admin/" . "ticket/TicketData/EditForm/field/TicketData/item/" . $obj->ID,
@@ -148,7 +148,7 @@ class TicketPage_Controller extends Page_Controller {
 	$obj->Via = "WEBSITE";
 	$obj->write();
 	$form->sessionMessage('ok', 'alert alert-success', "Ticket berhasil disimpan");
-	foreach (Member::get()->where("Type='ADMIN'") as $user) {
+	foreach (Member::get()->where("Type IN ('ADMIN','CS')") as $user) {
 	  $arr = array(
 		  'Title' => Member::currentUser()->FirstName . " membuat ticket " . $obj->Number . " - " . $obj->Title . " pada " . date('d-m-Y H:i'),
 		  'URL' => Director::absoluteBaseURL() . "admin/" . "ticket/TicketData/EditForm/field/TicketData/item/" . $obj->ID,
@@ -186,7 +186,6 @@ class TicketPage_Controller extends Page_Controller {
 
   function ajax_getcategory() {
 	if (isset($_POST['id'])) {
-	  $arr = array();
 	  echo json_encode(TicketCategoryData::get()->where("DivisionID=" . $_POST['id'] . "")->toNestedArray());
 	}
   }

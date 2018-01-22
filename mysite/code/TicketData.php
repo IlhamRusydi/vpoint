@@ -17,13 +17,17 @@ class TicketData extends DataObject {
   );
   static $has_one = array(
 	  'Category' => 'TicketCategoryData',
+	  'Division' => 'DivisionData',
 	  'Member' => 'Member',
 	  'MemberCreate' => 'Member'
   );
   static $summary_fields = array(
+	  'Created.Nice' => 'Created',
 	  'Number' => 'Number',
 	  'Title' => 'Title',
 	  'Status' => 'Status',
+	  'Division.Title' => 'Division',
+	  'Category.Title' => 'Category',
 	  'Member.FirstName' => 'Member'
   );
 
@@ -72,6 +76,9 @@ class TicketData extends DataObject {
 	  $this->setTicketRead();
 	  $fields->addFieldToTab("Root.Main", new ReadonlyField("Number"));
 	  $fields->addFieldToTab("Root.Main", new ReadonlyField("Status"));
+	  $fields->addFieldToTab("Root.Main", new ReadonlyField("Created"));
+	  $fields->addFieldToTab("Root.Main", new ReadonlyField("Divisi", "Division", $this->Division()->Title));
+	  $fields->addFieldToTab("Root.Main", new ReadonlyField("Kategori", "Category", $this->Category()->Title));
 	}
 	if ($this->MemberCreateID == Member::currentUserID()) {
 	  $fields->addFieldToTab("Root.Main", new TextField("Title"));

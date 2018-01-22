@@ -85,14 +85,15 @@ class BlogData extends DataObject {
 
   static function Search($params, $limit = 5, $offset = 0) {
 	$sql = "SELECT DISTINCT BlogData.ID FROM BlogData"
-			. " JOIN BlogData_Categories ON BlogData.ID=BlogData_Categories.BlogDataID";
+			. " JOIN BlogData_Categories ON BlogData.ID=BlogData_Categories.BlogDataID"
+			. " JOIN BlogCategoryData ON BlogCategoryData.ID=BlogData_Categories.BlogCategoryDataID";
 	$sql .= " WHERE BlogData.ID>0";
 	if (isset($params['search']) && $params['search']) {
-	  $sql .= " AND BlogData.Title LIKE '%" . $params['search'] . "%'";
-	  $sql .= " AND BlogData.Content LIKE '%" . $params['search'] . "%'";
+	  $sql .= " AND (BlogData.Title LIKE '%" . $params['search'] . "%'";
+	  $sql .= " OR BlogData.Content LIKE '%" . $params['search'] . "%')";
 	}
 	if (isset($params['category']) && $params['category']) {
-	  $sql .= " AND BlogData_Categories.BlogCategoryDataID = " . $params['category'] . "";
+	  $sql .= " AND BlogCategoryData.URLSegment = '" . $params['category'] . "'";
 	}
 	$sql .= " ORDER BY BlogData.Created ASC LIMIT $offset, $limit ";
 	$arr_id = DB::query($sql)->column("ID");
